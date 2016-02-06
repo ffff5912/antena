@@ -156,6 +156,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         LaravelDoctrine\ORM\DoctrineServiceProvider::class,
+        willvincent\Feeds\FeedsServiceProvider::class,
 
     ],
 
@@ -205,6 +206,7 @@ return [
         'EntityManager' => LaravelDoctrine\ORM\Facades\EntityManager::class,
         'Registry'      => LaravelDoctrine\ORM\Facades\Registry::class,
         'Doctrine'      => LaravelDoctrine\ORM\Facades\Doctrine::class,
+        'Feeds'    => willvincent\Feeds\Facades\FeedsFacade::class,
     ],
 
 ];
