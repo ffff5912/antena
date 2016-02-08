@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
+use GrahamCampbell\Flysystem\FlysystemManager;
 use App\Service\FeedService;
 
 class Feed extends Command
@@ -29,17 +31,18 @@ class Feed extends Command
     /**
      * @var string
      */
-    private $url;
+    private $url = [];
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(FeedService $service)
+    public function __construct(FeedService $service, FlysystemManager $flysystem)
     {
         parent::__construct();
         $this->service = $service;
+        $this->flysystem = $flysystem;
     }
 
     /**
@@ -49,6 +52,12 @@ class Feed extends Command
      */
     public function handle()
     {
-        $feed = $this->service->make($this->url);
+        $url = $this->read('feed_list.txt');
+        $feed = $this->service->make($url);
+    }
+
+    private function read($path)
+    {
+        return $this->flysystem->read($path);
     }
 }
