@@ -157,6 +157,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         LaravelDoctrine\ORM\DoctrineServiceProvider::class,
         willvincent\Feeds\FeedsServiceProvider::class,
+        GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
 
     ],
 
@@ -207,6 +208,7 @@ return [
         'Registry'      => LaravelDoctrine\ORM\Facades\Registry::class,
         'Doctrine'      => LaravelDoctrine\ORM\Facades\Doctrine::class,
         'Feeds'    => willvincent\Feeds\Facades\FeedsFacade::class,
+        'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
     ],
 
 ];
