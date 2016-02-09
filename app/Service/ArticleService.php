@@ -2,6 +2,7 @@
 namespace App\Service;
 
 use App\Repository\RepositoryInterface;
+use App\Factory\FactoryInterface;
 
 class ArticleService
 {
@@ -11,11 +12,17 @@ class ArticleService
     private $repository;
 
     /**
+     * @var FactoryInterface
+     */
+    private $factory;
+
+    /**
      * @param RepositoryInterface $repository
      */
-    public function __construct(RepositoryInterface $repository)
+    public function __construct(RepositoryInterface $repository, FactoryInterface $factory)
     {
         $this->repository = $repository;
+        $this->factory = $factory;
     }
 
     public function getAll()
