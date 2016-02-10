@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\RepositoryInterface;
 use App\Factory\FactoryInterface;
 
@@ -28,5 +29,10 @@ class ArticleService
     public function getAll()
     {
         return $this->repository->findAll();
+    }
+
+    public function build(ArrayCollection $data)
+    {
+        return $this->factory->build($data);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Factory;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Article;
 
-class ArticleFacotry implements FactoryInterface
+class ArticleFactory implements FactoryInterface
 {
     /**
      * @param  ArrayCollection $data
