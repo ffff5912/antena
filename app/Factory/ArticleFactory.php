@@ -14,7 +14,7 @@ class ArticleFactory implements FactoryInterface
     {
         $article = new Article();
         $article->setTitle($data->get('title'));
-        $article->setContents($data->get('contents'));
+        $article->setDescription($data->get('description'));
         $article->setUrl($data->get('url'));
 
         return $article;

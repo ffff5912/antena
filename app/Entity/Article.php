@@ -25,7 +25,7 @@ class Article implements EntityInterface
     /**
      * @ORM\Column(type="string")
      */
-    protected $contents;
+    protected $description;
 
     /**
      * @ORM\Column(type="string")
@@ -60,9 +60,9 @@ class Article implements EntityInterface
         return $this->title;
     }
 
-    public function getContents()
+    public function getDescription()
     {
-        return $this->contents;
+        return $this->description;
     }
 
     public function getUrl()
@@ -85,9 +85,9 @@ class Article implements EntityInterface
         $this->title = $title;
     }
 
-    public function setContents($contents)
+    public function setDescription($description)
     {
-        $this->contents = $contents;
+        $this->description = $description;
     }
 
     public function setUrl($url)
