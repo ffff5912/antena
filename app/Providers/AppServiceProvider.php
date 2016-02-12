@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
             return new ArticleService($app[ArticleRepository::class], $app[ArticleFactory::class]);
         });
         $this->app->singleton(FeedService::class, function ($app) {
-            return new FeedService($app['Feeds'], $app[ArticleService::class]);
+            return new FeedService($app['Feeds']);
         });
     }
 }
