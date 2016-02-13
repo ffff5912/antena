@@ -7,7 +7,7 @@
             <article class="">
                 <div class="">
                     <h2><a href="{{ $article->getUrl() }}">{{ $article->getTitle() }}</a></h2>
-                    <p>{{ $article->getContents() }}</p>
+                    <p>{{ $article->getDescription() }}</p>
                 </div>
             </article>
         </div>
