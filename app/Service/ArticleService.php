@@ -3,7 +3,6 @@ namespace App\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\RepositoryInterface;
-use App\Factory\FactoryInterface;
 
 class ArticleService
 {
@@ -13,26 +12,15 @@ class ArticleService
     private $repository;
 
     /**
-     * @var FactoryInterface
-     */
-    private $factory;
-
-    /**
      * @param RepositoryInterface $repository
      */
-    public function __construct(RepositoryInterface $repository, FactoryInterface $factory)
+    public function __construct(RepositoryInterface $repository)
     {
         $this->repository = $repository;
-        $this->factory = $factory;
     }
 
     public function getAll()
     {
         return $this->repository->findAll();
-    }
-
-    public function build(ArrayCollection $data)
-    {
-        return $this->factory->build($data);
     }
 }
