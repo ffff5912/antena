@@ -24,7 +24,7 @@ class FeedService
         return $this->feeds->make($url);
     }
 
-    public function build($feed)
+    public function build(\SimplePie_Item $feed)
     {
         $data = new ArrayCollection();
         $data->set('title', $feed->get_title());

@@ -1,21 +1,31 @@
 <?php
 namespace App\Repository;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
+use App\Entity\Article;
 
 class ArticleRepository implements RepositoryInterface
 {
     /**
-     * @var ObjectRepository
+     * @var EntityManagerInterface
      */
-    private $genericRepository;
+    private $em;
 
     /**
-     * @param ObjectRepository $genericRepository
+     * @var ObjectRepository
      */
-    public function __construct(ObjectRepository $genericRepository)
+    private $entity_repository;
+
+    /**
+     * @param EntityManagerInterface $em
+     * @param ObjectRepository $entity_repository
+     */
+    public function __construct(EntityManagerInterface $em, ObjectRepository $entity_repository)
     {
-        $this->genericRepository = $genericRepository;
+        $this->em = $em;
+        $this->entity_repository = $entity_repository;
     }
 
     /**
@@ -24,11 +34,51 @@ class ArticleRepository implements RepositoryInterface
      */
     public function find($id)
     {
-        return $this->genericRepository->find($id);
+        return $this->entity_repository->find($id);
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function findAll()
     {
-        return $this->genericRepository->findAll();
+        return $this->entity_repository->findAll();
+    }
+
+    /**
+     * @param  ArrayCollection $articles
+     * @param  integer         $batch_size
+     */
+    public function bulkInserts(ArrayCollection $articles, $batch_size = 20)
+    {
+        $length = $articles->count();
+        for ($i = 1; $i < $length; ++$i) {
+            $this->persist($articles->get($i));
+            if (0 === ($i % $batch_size)) {
+                $this->detaches();
+            }
+        }
+        $this->detaches();
+    }
+
+    private function detaches()
+    {
+        $this->flush();
+        $this->clear();
+    }
+
+    private function persist(Article $article)
+    {
+        $this->em->persist($article);
+    }
+
+    private function flush()
+    {
+        $this->em->flush();
+    }
+
+    public function clear()
+    {
+        $this->em->clear();
     }
 }
