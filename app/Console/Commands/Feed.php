@@ -8,6 +8,7 @@ use GrahamCampbell\Flysystem\FlysystemManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Service\FeedService;
 use App\Service\ArticleBatchService;
+use App\Entity\Article;
 
 class Feed extends Command
 {
@@ -68,21 +69,28 @@ class Feed extends Command
     {
         $url = $this->read('feed_list.txt');
         $feed = $this->feed_service->make($url);
-        $items = $feed->get_items();
-        foreach ($items as $item) {
-            $this->articles->add($this->build($item));
-        }
+        $this->createFeedItems($feed)
+        ->map(function (\SimplePie_Item $item) {
+            return $this->feed_service->build($item);
+        })
+        ->map(function (ArrayCollection $feed) {
+            return $this->article_service->build($feed);
+        })
+        ->map(function (Article $article) {
+            $this->articles->add($article);
+        });
         $this->article_service->save($this->articles);
     }
 
     /**
-     * @param  SimplePie_Item $item
-     * @return Article
+     * @param  SimplePie $feed [description]
+     * @return ArrayCollection
      */
-    private function build(\SimplePie_Item $item)
+    private function createFeedItems(\SimplePie $feed)
     {
-        $feed = $this->feed_service->build($item);
-        return $this->article_service->build($feed);
+        $items = new ArrayCollection($feed->get_items());
+
+        return $items;
     }
 
     /**
