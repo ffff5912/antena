@@ -3,7 +3,6 @@ namespace App\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Common\Persistence\ObjectRepository;
 use App\Entity\Article;
 
 class ArticleRepository implements RepositoryInterface
@@ -22,10 +21,10 @@ class ArticleRepository implements RepositoryInterface
      * @param EntityManagerInterface $em
      * @param ObjectRepository $entity_repository
      */
-    public function __construct(EntityManagerInterface $em, ObjectRepository $entity_repository)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->entity_repository = $entity_repository;
+        $this->entity_repository = $this->em->getRepository(Article::class);
     }
 
     /**

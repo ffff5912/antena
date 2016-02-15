@@ -30,10 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(ArticleRepository::class, function ($app) {
-            return new ArticleRepository(
-                $app['em'],
-                $app['em']->getRepository(Article::class)
-            );
+            return new ArticleRepository($app['em']);
         });
         $this->app->singleton(ArticleFactory::class, function ($app) {
             return new ArticleFactory();
