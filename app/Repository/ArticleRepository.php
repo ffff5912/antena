@@ -41,7 +41,7 @@ class ArticleRepository implements RepositoryInterface
      */
     public function findAll()
     {
-        return $this->entity_repository->findAll();
+        return $this->entity_repository->findBy([], ['created_at' => 'desc']);
     }
 
     /**
