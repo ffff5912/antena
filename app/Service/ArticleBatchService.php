@@ -20,6 +20,7 @@ class ArticleBatchService
 
     /**
      * @param RepositoryInterface $repository
+     * @param FactoryInterface $factory
      */
     public function __construct(RepositoryInterface $repository, FactoryInterface $factory)
     {

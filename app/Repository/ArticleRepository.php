@@ -19,7 +19,6 @@ class ArticleRepository implements RepositoryInterface
 
     /**
      * @param EntityManagerInterface $em
-     * @param ObjectRepository $entity_repository
      */
     public function __construct(EntityManagerInterface $em)
     {

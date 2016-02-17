@@ -37,7 +37,7 @@ class Feed extends Command
     private $article_service;
 
     /**
-     * @var string
+     * @var FlysystemManager
      */
     private $flysystem;
 
