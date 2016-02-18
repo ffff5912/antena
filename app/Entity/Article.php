@@ -33,6 +33,16 @@ class Article implements EntityInterface
     protected $url;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    protected $category;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $tag;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created_at;
@@ -70,6 +80,16 @@ class Article implements EntityInterface
         return $this->url;
     }
 
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
     public function getCreatedAt()
     {
         return $this->created_at;
@@ -93,6 +113,16 @@ class Article implements EntityInterface
     public function setUrl($url)
     {
         $this->url = $url;
+    }
+
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
     }
 
     public function setCreatedAt($created_at)
