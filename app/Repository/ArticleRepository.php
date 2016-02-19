@@ -44,6 +44,15 @@ class ArticleRepository implements RepositoryInterface
     }
 
     /**
+     * @param  String $category
+     * @return ArrayCollection
+     */
+    public function findByCategory($category)
+    {
+        return $this->entity_repository->findBy(['category' => $category], ['created_at' => 'desc']);
+    }
+
+    /**
      * @param  ArrayCollection $articles
      * @param  integer         $batch_size
      */
