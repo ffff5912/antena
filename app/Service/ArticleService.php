@@ -19,8 +19,13 @@ class ArticleService
         $this->repository = $repository;
     }
 
-    public function getAll()
+    /**
+     * @param  Integer $current_page
+     * @param  Integer $limit
+     * @return Paginator
+     */
+    public function getAll($current_page, $limit)
     {
-        return $this->repository->findAll();
+        return $this->repository->findAll($current_page, $limit);
     }
 }

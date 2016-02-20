@@ -3,6 +3,7 @@ namespace App\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use App\Entity\Article;
 
 class ArticleRepository implements RepositoryInterface
@@ -27,7 +28,7 @@ class ArticleRepository implements RepositoryInterface
     }
 
     /**
-     * @param int $id
+     * @param Integer $id
      * @return Article
      */
     public function find($id)
@@ -36,11 +37,17 @@ class ArticleRepository implements RepositoryInterface
     }
 
     /**
-     * @return ArrayCollection
+     * @param  Integer $current_page
+     * @param  Integer $limit
+     * @return Paginator
      */
-    public function findAll()
+    public function findAll($current_page = 1, $limit = 5)
     {
-        return $this->entity_repository->findBy([], ['created_at' => 'desc']);
+        $query = $this->entity_repository->createQueryBuilder('a')
+            ->orderBy('a.created_at', 'DESC')
+            ->getQuery();
+
+        return $this->paginate($query, $current_page, $limit);
     }
 
     /**
@@ -54,7 +61,7 @@ class ArticleRepository implements RepositoryInterface
 
     /**
      * @param  ArrayCollection $articles
-     * @param  integer         $batch_size
+     * @param  Integer         $batch_size
      */
     public function bulkInserts(ArrayCollection $articles, $batch_size = 20)
     {
@@ -87,5 +94,22 @@ class ArticleRepository implements RepositoryInterface
     public function clear()
     {
         $this->em->clear();
+    }
+
+    /**
+     * @param  String $dql
+     * @param  Integer $page
+     * @param  Integer $limit
+     * @return Paginator
+     */
+    private function paginate($dql, $page, $limit)
+    {
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * $page - 1)
+            ->setMaxResults($limit);
+
+        return  $paginator;
     }
 }

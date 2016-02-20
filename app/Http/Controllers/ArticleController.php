@@ -10,6 +10,8 @@ use App\Service\ArticleService;
 
 class ArticleController extends BaseController
 {
+    const ARTICLE_LIMIT = 10;
+
     /**
      * @var ArticleService
      */
@@ -23,10 +25,15 @@ class ArticleController extends BaseController
         $this->service = $service;
     }
 
-    public function index()
+    public function index($page = 1)
     {
-        $articles = $this->service->getAll();
+        $articles = $this->service->getAll($page, self::ARTICLE_LIMIT);
+        $max_pages = ceil($articles->count() / self::ARTICLE_LIMIT);
 
-        return view('article.index', ['articles' => $articles]);
+        return view('article.index', [
+            'articles' => $articles,
+            'max_pages' => $max_pages,
+            'current_page' => $page,
+        ]);
     }
 }
