@@ -61,8 +61,8 @@ class Feed extends Command
     public function handle()
     {
         $this->read()->forAll(function ($key, $feed) {
-            $feed = $this->feed_service->make($feed->getUrl());
-            $this->createFeedItems($feed)
+            $item = $this->feed_service->make($feed->getUrl());
+            $this->createFeedItems($item)
                 ->map($this->buildFeed())
                 ->map($this->buildArticle())
                 ->map($this->addArticle());
