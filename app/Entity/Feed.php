@@ -52,9 +52,19 @@ class Feed implements EntityInterface
         return $this->id;
     }
 
-    public function getTitle()
+    public function getUrl()
     {
-        return $this->title;
+        return $this->url;
+    }
+
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function getTag()
+    {
+        return $this->tag;
     }
 
     public function getCreatedAt()
@@ -67,9 +77,19 @@ class Feed implements EntityInterface
         return $this->updated_at;
     }
 
-    public function setTitle($title)
+    public function setUrl($url)
     {
-        $this->title = $title;
+        $this->url = $url;
+    }
+
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
     }
 
     public function setCreatedAt($created_at)
