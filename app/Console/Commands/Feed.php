@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
-use GrahamCampbell\Flysystem\FlysystemManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Service\FeedService;
 use App\Service\ArticleBatchService;
@@ -37,11 +36,6 @@ class Feed extends Command
     private $article_service;
 
     /**
-     * @var FlysystemManager
-     */
-    private $flysystem;
-
-    /**
      * @var ArrayCollection
      */
     private $articles;
@@ -51,12 +45,11 @@ class Feed extends Command
      *
      * @return void
      */
-    public function __construct(FeedService $feed_service, ArticleBatchService $article_service, FlysystemManager $flysystem)
+    public function __construct(FeedService $feed_service, ArticleBatchService $article_service)
     {
         parent::__construct();
         $this->feed_service = $feed_service;
         $this->article_service = $article_service;
-        $this->flysystem = $flysystem;
         $this->articles = new ArrayCollection();
     }
 
@@ -67,19 +60,35 @@ class Feed extends Command
      */
     public function handle()
     {
-        $url = $this->read('feed_list.txt');
-        $feed = $this->feed_service->make($url);
-        $this->createFeedItems($feed)
-        ->map(function (\SimplePie_Item $item) {
-            return $this->feed_service->build($item);
-        })
-        ->map(function (ArrayCollection $feed) {
-            return $this->article_service->build($feed);
-        })
-        ->map(function (Article $article) {
-            $this->articles->add($article);
+        $this->read()->forAll(function ($key, $feed) {
+            $feed = $this->feed_service->make($feed->getUrl());
+            $this->createFeedItems($feed)
+                ->map($this->buildFeed())
+                ->map($this->buildArticle())
+                ->map($this->addArticle());
         });
         $this->article_service->save($this->articles);
+    }
+
+    private function buildFeed()
+    {
+        return function (\SimplePie_Item $item) {
+            return $this->feed_service->build($item);
+        };
+    }
+
+    private function buildArticle()
+    {
+        return function (ArrayCollection $feed) {
+            return $this->article_service->build($feed);
+        };
+    }
+
+    private function addArticle()
+    {
+        return function (Article $article) {
+            $this->articles->add($article);
+        };
     }
 
     /**
@@ -94,11 +103,10 @@ class Feed extends Command
     }
 
     /**
-     * @param  String $path
      * @return String
      */
-    private function read($path)
+    private function read()
     {
-        return $this->flysystem->read($path);
+        return $this->feed_service->getAll();
     }
 }

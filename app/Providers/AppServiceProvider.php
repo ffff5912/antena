@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Repository\ArticleRepository;
+use App\Repository\FeedRepository;
 use App\Service\ArticleService;
 use App\Service\ArticleBatchService;
 use App\Service\FeedService;
@@ -29,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(FeedRepository::class, function ($app) {
+            return new FeedRepository($app['em']);
+        });
         $this->app->bind(ArticleRepository::class, function ($app) {
             return new ArticleRepository($app['em']);
         });
@@ -42,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
             return new ArticleBatchService($app[ArticleRepository::class], $app[ArticleFactory::class]);
         });
         $this->app->singleton(FeedService::class, function ($app) {
-            return new FeedService($app['Feeds']);
+            return new FeedService($app[FeedRepository::class], $app['Feeds']);
         });
     }
 }

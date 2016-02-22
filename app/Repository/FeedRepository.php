@@ -40,7 +40,8 @@ class FeedRepository implements RepositoryInterface
      */
     public function findAll()
     {
-        return $this->entity_repository->findAll();
+        $feeds = new ArrayCollection($this->entity_repository->findAll());
+        return $feeds;
     }
 
     private function persist(Feed $feed)

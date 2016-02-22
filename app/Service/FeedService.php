@@ -3,9 +3,15 @@ namespace App\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use willvincent\Feeds\FeedsFactory;
+use App\Repository\RepositoryInterface;
 
 class FeedService
 {
+    /**
+     * @var RepositoryInterface
+     */
+    private $repository;
+
     /**
      * @var Feeds
      */
@@ -14,8 +20,9 @@ class FeedService
     /**
      * @param FeedsFactory
      */
-    public function __construct(FeedsFactory $feeds)
+    public function __construct(RepositoryInterface $repository, FeedsFactory $feeds)
     {
+        $this->repository = $repository;
         $this->feeds = $feeds;
     }
 
@@ -32,5 +39,10 @@ class FeedService
         $data->set('description', $feed->get_description());
 
         return $data;
+    }
+
+    public function getAll()
+    {
+        return $this->repository->findAll();
     }
 }
