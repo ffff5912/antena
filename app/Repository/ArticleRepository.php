@@ -67,7 +67,7 @@ class ArticleRepository implements RepositoryInterface
     {
         $length = $articles->count();
         for ($i = 1; $i < $length; ++$i) {
-            $this->persist($articles->get($i));
+            $this->merge($articles->get($i));
             if (0 === ($i % $batch_size)) {
                 $this->detaches();
             }
@@ -79,6 +79,11 @@ class ArticleRepository implements RepositoryInterface
     {
         $this->flush();
         $this->clear();
+    }
+
+    private function merge(Article $article)
+    {
+        $this->em->merge($article);
     }
 
     private function persist(Article $article)

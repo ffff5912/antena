@@ -16,6 +16,8 @@ class ArticleFactory implements FactoryInterface
         $article->setTitle($data->get('title'));
         $article->setDescription($data->get('description'));
         $article->setUrl($data->get('url'));
+        $article->setFeed($data->get('feed'));
+        $article->onPrePersist();
 
         return $article;
     }

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\App;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Service\FeedService;
 use App\Service\ArticleBatchService;
-use App\Entity\Article;
+use App\Entity;
 
 class Feed extends Command
 {
@@ -64,7 +64,7 @@ class Feed extends Command
             $item = $this->feed_service->make($feed->getUrl());
             $this->createFeedItems($item)
                 ->map($this->buildFeed())
-                ->map($this->buildArticle())
+                ->map($this->buildArticle($feed))
                 ->map($this->addArticle());
         });
         $this->article_service->save($this->articles);
@@ -77,16 +77,16 @@ class Feed extends Command
         };
     }
 
-    private function buildArticle()
+    private function buildArticle(Entity\Feed $feed)
     {
-        return function (ArrayCollection $feed) {
-            return $this->article_service->build($feed);
+        return function (ArrayCollection $data) use ($feed) {
+            return $this->article_service->build($data, $feed);
         };
     }
 
     private function addArticle()
     {
-        return function (Article $article) {
+        return function (Entity\Article $article) {
             $this->articles->add($article);
         };
     }

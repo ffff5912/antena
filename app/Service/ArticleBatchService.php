@@ -4,6 +4,7 @@ namespace App\Service;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\RepositoryInterface;
 use App\Factory\FactoryInterface;
+use App\Entity\Feed;
 
 class ArticleBatchService
 {
@@ -33,8 +34,9 @@ class ArticleBatchService
         return $this->repository->bulkInserts($articles, self::BATCH_SIZE);
     }
 
-    public function build(ArrayCollection $data)
+    public function build(ArrayCollection $data, Feed $feed)
     {
+        $data->set('feed', $feed);
         return $this->factory->build($data);
     }
 }

@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Feed;
 
 /**
  * @ORM\Entity
@@ -33,14 +34,11 @@ class Article implements EntityInterface
     protected $url;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Feed", inversedBy="article")
+     * @ORM\JoinColumn(name="feed_id", referencedColumnName="id")
+     * @var Feed
      */
-    protected $category;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $tag;
+    protected $feed;
 
     /**
      * @ORM\Column(type="datetime")
@@ -80,14 +78,9 @@ class Article implements EntityInterface
         return $this->url;
     }
 
-    public function getCategory()
+    public function getFeed()
     {
-        return $this->category;
-    }
-
-    public function getTag()
-    {
-        return $this->tag;
+        return $this->feed;
     }
 
     public function getCreatedAt()
@@ -115,14 +108,9 @@ class Article implements EntityInterface
         $this->url = $url;
     }
 
-    public function setCategory($category)
+    public function setFeed(Feed $feed)
     {
-        $this->category = $category;
-    }
-
-    public function setTag($tag)
-    {
-        $this->tag = $tag;
+        $this->feed = $feed;
     }
 
     public function setCreatedAt($created_at)

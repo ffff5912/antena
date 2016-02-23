@@ -33,6 +33,12 @@ class Feed implements EntityInterface
     protected $tag;
 
     /**
+    * @ORM\OneToMany(targetEntity="Article", mappedBy="feed", cascade={"persist", "remove"})
+    * @var ArrayCollection|Article[]
+    */
+    protected $articles;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created_at;
@@ -45,6 +51,7 @@ class Feed implements EntityInterface
     public function __construct($id = null)
     {
         $this->id = $id;
+        $this->articles = new ArrayCollection();
     }
 
     public function getId()
@@ -65,6 +72,19 @@ class Feed implements EntityInterface
     public function getTag()
     {
         return $this->tag;
+    }
+
+    public function addArticle(Article $article)
+    {
+        if (!$this->articles->contains($article)) {
+            $article->setFeed($this);
+            $this->articles->add($article);
+        }
+    }
+
+    public function getArticles()
+    {
+        return $this->articles;
     }
 
     public function getCreatedAt()
