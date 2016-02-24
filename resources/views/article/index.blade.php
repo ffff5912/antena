@@ -8,6 +8,8 @@
                 <div class="">
                     <h2><a href="{{ $article->getUrl() }}">{{ $article->getTitle() }}</a></h2>
                     <p>{{ $article->getDescription() }}</p>
+                    <span>カテゴリ:{{ $article->getFeed()->getCategory() }}</span>
+                    <span>タグ:{{ $article->getFeed()->getTag() }}</span>
                 </div>
             </article>
         </div>
