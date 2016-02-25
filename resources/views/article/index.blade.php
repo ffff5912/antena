@@ -8,7 +8,11 @@
                 <div class="">
                     <h2><a href="{{ $article->getUrl() }}">{{ $article->getTitle() }}</a></h2>
                     <p>{{ $article->getDescription() }}</p>
-                    <span>カテゴリ:{{ $article->getFeed()->getCategory() }}</span>
+                    <span>カテゴリ:
+                        <a href="{{ action('ArticleSearchController@showCategory', ['category' => $article->getFeed()->getCategory()]) }}">
+                            {{ $article->getFeed()->getCategory() }}
+                        </a>
+                    </span>
                     <span>タグ:{{ $article->getFeed()->getTag() }}</span>
                 </div>
             </article>
