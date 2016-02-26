@@ -28,4 +28,9 @@ class ArticleService
     {
         return $this->repository->findAll($current_page, $limit);
     }
+
+    public function getByCategory($category)
+    {
+        return $this->repository->findByCategory($category);
+    }
 }
