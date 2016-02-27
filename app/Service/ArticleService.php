@@ -33,4 +33,9 @@ class ArticleService
     {
         return $this->repository->findByCategory($category);
     }
+
+    public function getByTag($tag)
+    {
+        return $this->repository->findByTag($tag);
+    }
 }
