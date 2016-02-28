@@ -54,9 +54,16 @@ class ArticleRepository implements RepositoryInterface
      * @param  String $category
      * @return ArrayCollection
      */
-    public function findByCategory($category)
+    public function findByCategory($category, $current_page = 1, $limit = 5)
     {
-        return $this->entity_repository->findBy(['category' => $category], ['created_at' => 'desc']);
+        $query = $this->entity_repository->createQueryBuilder('a')
+            ->innerJoin('App\Entity\Feed', 'f')
+            ->where('f.category = :category')
+            ->setParameter(':category', $category)
+            ->orderBy('a.created_at', 'DESC')
+            ->getQuery();
+
+        return $this->paginate($query, $current_page, $limit);
     }
 
     /**
