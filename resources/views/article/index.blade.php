@@ -13,7 +13,11 @@
                             {{ $article->getFeed()->getCategory() }}
                         </a>
                     </span>
-                    <span>タグ:{{ $article->getFeed()->getTag() }}</span>
+                    <span>タグ:
+                        <a href="{{ action('ArticleSearchController@showTag', ['tag' => $article->getFeed()->getTag()]) }}">
+                            {{ $article->getFeed()->getTag() }}
+                        </a>
+                    </span>
                 </div>
             </article>
         </div>
