@@ -36,4 +36,16 @@ class ArticleSearchController extends BaseController
             'current_page' => $page,
         ]);
     }
+
+    public function showTag($tag, $page = 1)
+    {
+        $articles = $this->service->getByTag($tag, $page, self::ARTICLE_LIMIT);
+        $max_pages = ceil($articles->count() / self::ARTICLE_LIMIT);
+
+        return view('article.index', [
+            'articles' => $articles,
+            'max_pages' => $max_pages,
+            'current_page' => $page,
+        ]);
+    }
 }

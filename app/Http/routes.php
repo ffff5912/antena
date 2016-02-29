@@ -13,7 +13,8 @@
 
 Route::get('/', ['as' => 'index', 'uses' => 'ArticleController@index']);
 Route::get('/{page}', ['as' => 'index_page', 'uses' => 'ArticleController@index'])->where(['page' => '[0-9]+']);
-Route::get('/article/{category}', ['as' => 'article_category', 'uses' => 'ArticleSearchController@showCategory']);
+Route::get('/article/category/{category}', ['as' => 'article_category', 'uses' => 'ArticleSearchController@showCategory']);
+Route::get('/article/tag/{tag}', ['as' => 'article_tag', 'uses' => 'ArticleSearchController@showTag']);
 
 /*
 |--------------------------------------------------------------------------
