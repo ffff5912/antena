@@ -66,6 +66,18 @@ class ArticleRepository implements RepositoryInterface
         return $this->paginate($query, $current_page, $limit);
     }
 
+    public function findByTag($tag, $current_page = 1, $limit = 5)
+    {
+        $query = $this->entity_repository->createQueryBuilder('a')
+            ->innerJoin('App\Entity\Feed', 'f')
+            ->where('f.tag = :tag')
+            ->setParameter(':tag', $tag)
+            ->orderBy('a.created_at', 'DESC')
+            ->getQuery();
+
+        return $this->paginate($query, $current_page, $limit);
+    }
+
     /**
      * @param  ArrayCollection $articles
      * @param  Integer         $batch_size
