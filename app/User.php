@@ -2,25 +2,29 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use LaravelDoctrine\ORM\Contracts\Auth\Authenticatable;
 
-class User extends Authenticatable
+class User implements Authenticatable
 {
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $id;
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public function getAuthIdentifierName()
+    {
+        return 'id';
+    }
+
+    public function getAuthIdentifier()
+    {
+        return $id;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
 }
