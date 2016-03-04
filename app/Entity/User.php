@@ -1,11 +1,10 @@
 <?php
+namespace App\Entity;
 
-namespace App;
-
-use LaravelDoctrine\ORM\Contracts\Auth\Authenticatable;
-
-class User implements Authenticatable
+class User implements \LaravelDoctrine\ORM\Contracts\Auth\Authenticatable
 {
+    use \LaravelDoctrine\ORM\Auth\Authenticatable;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -20,7 +19,7 @@ class User implements Authenticatable
 
     public function getAuthIdentifier()
     {
-        return $id;
+        return $this->id;
     }
 
     public function getPassword()
