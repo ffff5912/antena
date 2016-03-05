@@ -1,6 +1,13 @@
 <?php
-namespace App\Entity;
+namespace App;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="users")
+ * @ORM\HasLifecycleCallbacks()
+ */
 class User implements \LaravelDoctrine\ORM\Contracts\Auth\Authenticatable
 {
     use \LaravelDoctrine\ORM\Auth\Authenticatable;
