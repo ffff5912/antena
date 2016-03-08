@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Entity\User;
 use Validator;
 use App\Http\Controllers\Controller;
+use App\Service\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -32,13 +33,19 @@ class AuthController extends Controller
     protected $redirectTo = '/';
 
     /**
+     * @var UserRepository
+     */
+    private $service;
+
+    /**
      * Create a new authentication controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $service)
     {
         $this->middleware('guest', ['except' => 'logout']);
+        $this->service = $service;
     }
 
     /**
@@ -51,7 +58,6 @@ class AuthController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
         ]);
     }
@@ -64,10 +70,9 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $user = new User($data['name'], bcrypt($data['password']));
+        $this->service->register($user);
+
+        return $user;
     }
 }

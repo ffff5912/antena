@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'doctrine',
-            'model' => App\User::class,
+            'model' => App\Entity\User::class,
         ],
         // 'users' => [
         //     'driver' => 'eloquent',
@@ -107,5 +107,4 @@ return [
             'expire' => 60,
         ],
     ],
-
 ];

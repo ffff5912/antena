@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,6 +19,17 @@ class User implements \LaravelDoctrine\ORM\Contracts\Auth\Authenticatable
      */
     protected $id;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $name;
+
+    public function __construct($name, $password)
+    {
+        $this->name = $name;
+        $this->password = $password;
+    }
+
     public function getAuthIdentifierName()
     {
         return 'id';
@@ -32,5 +43,10 @@ class User implements \LaravelDoctrine\ORM\Contracts\Auth\Authenticatable
     public function getPassword()
     {
         return $this->password;
+    }
+
+    public function getnName()
+    {
+        return $this->name;
     }
 }

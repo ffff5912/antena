@@ -5,9 +5,11 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Repository\ArticleRepository;
 use App\Repository\FeedRepository;
+use App\Repository\UserRepository;
 use App\Service\ArticleService;
 use App\Service\ArticleBatchService;
 use App\Service\FeedService;
+use App\Service\UserService;
 use App\Factory\ArticleFactory;
 use App\Entity\Article;
 
@@ -30,6 +32,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(UserRepository::class, function ($app) {
+            return new UserRepository($app['em']);
+        });
         $this->app->bind(FeedRepository::class, function ($app) {
             return new FeedRepository($app['em']);
         });
@@ -47,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->singleton(FeedService::class, function ($app) {
             return new FeedService($app[FeedRepository::class], $app['Feeds']);
+        });
+        $this->app->singleton(UserService::class, function ($app) {
+            return new UserService($app[UserRepository::class]);
         });
     }
 }
