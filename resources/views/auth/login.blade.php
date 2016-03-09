@@ -6,7 +6,7 @@
 
     <div>
         Email
-        <input type="email" name="email" value="{{ $email }}">
+        <input type="text" name="name" value="{{ isset($name) ? $name : '' }}">
     </div>
 
     <div>
