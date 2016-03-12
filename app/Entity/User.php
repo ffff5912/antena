@@ -22,11 +22,11 @@ class User implements \LaravelDoctrine\ORM\Contracts\Auth\Authenticatable
     /**
      * @ORM\Column(type="string")
      */
-    protected $name;
+    protected $username;
 
-    public function __construct($name, $password)
+    public function __construct($username, $password)
     {
-        $this->name = $name;
+        $this->username = $username;
         $this->password = $password;
     }
 
@@ -45,8 +45,8 @@ class User implements \LaravelDoctrine\ORM\Contracts\Auth\Authenticatable
         return $this->password;
     }
 
-    public function getnName()
+    public function getUserName()
     {
-        return $this->name;
+        return $this->username;
     }
 }

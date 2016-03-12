@@ -5,8 +5,8 @@
     {!! csrf_field() !!}
 
     <div>
-        Email
-        <input type="text" name="name" value="{{ isset($name) ? $name : '' }}">
+        Name
+        <input type="text" name="username" value="{{ isset($username) ? $username : '' }}">
     </div>
 
     <div>

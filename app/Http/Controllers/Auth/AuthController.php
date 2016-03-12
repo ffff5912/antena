@@ -32,6 +32,8 @@ class AuthController extends Controller
      */
     protected $redirectTo = '/';
 
+    protected $username;
+
     /**
      * @var UserRepository
      */
@@ -57,7 +59,7 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'username' => 'required|max:255',
             'password' => 'required|confirmed|min:6',
         ]);
     }
@@ -70,7 +72,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        $user = new User($data['name'], bcrypt($data['password']));
+        $user = new User($data['username'], bcrypt($data['password']));
         $this->service->register($user);
 
         return $user;
