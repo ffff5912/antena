@@ -30,9 +30,9 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/admin';
 
-    protected $username;
+    protected $username = 'username';
 
     /**
      * @var UserRepository
